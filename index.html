@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt a Goblin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: linear-gradient(to bottom, #223622, #111);
+            color: #e0d8a8;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            color: #d4af37;
+            text-shadow: 2px 2px 5px #000;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        .generator {
+            margin: 30px 0;
+            padding: 20px;
+            background: #2a2a2a;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        .generator input {
+            font-size: 1.2em;
+            padding: 10px;
+            width: 300px;
+            margin: 10px;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+
+        .generator button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            background: #d4af37;
+            color: #111;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .loading-container {
+            display: none;
+            margin: 20px auto;
+        }
+
+        .loading-text {
+            color: #d4af37;
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #2a2a2a;
+            border-top: 5px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .goblin-showcase {
+            margin: 50px 0;
+        }
+
+        .goblin {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: #333;
+            color: #d4af37;
+            text-align: left;
+            font-size: 0.9em;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        footer {
+            padding: 20px 0;
+            background: #111;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Adopt a Goblin</h1>
+        <p>Generate your unique goblin companion by entering your wallet address below.</p>
+    </div>
+
+    <div class="generator">
+        <input type="text" id="wallet-address" placeholder="Enter your Solana wallet address...">
+        <button onclick="generateGoblin()">Generate My Goblin</button>
+    </div>
+
+    <div class="loading-container" id="loading-container">
+        <div class="spinner"></div>
+        <p class="loading-text">Fetching Goblin Data...</p>
+    </div>
+
+    <div class="goblin-showcase" id="goblin-showcase">
+        <h2>Your Goblin Companions</h2>
+        <!-- Generated goblins will appear here -->
+    </div>
+
+    <footer>
+        © 2024 Adopt a Goblin | Chaos Unleashed
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
