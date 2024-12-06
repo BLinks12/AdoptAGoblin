@@ -43,28 +43,48 @@ function hashAddress(address) {
 }
 
 function createGoblin(hash) {
-    const goblinColors = ['Green', 'Red', 'Blue', 'Yellow'];
-    const accessories = ['Sword', 'Shield', 'Crown', 'Potion'];
+    const goblinTypes = ['Warrior', 'Mage', 'Thief', 'Healer'];
+    const goblinColors = ['Green', 'Blue', 'Red', 'Yellow'];
+    const goblinAccessories = ['Axe', 'Staff', 'Dagger', 'Potion'];
 
-    const color = goblinColors[hash % goblinColors.length];
-    const accessory = accessories[(hash >> 2) % accessories.length];
+    const type = goblinTypes[hash % goblinTypes.length];
+    const color = goblinColors[(hash >> 2) % goblinColors.length];
+    const accessory = goblinAccessories[(hash >> 4) % goblinAccessories.length];
     const chaosLevel = (hash % 100) + 1;
 
-    const asciiArt = generateAsciiArt(color, accessory);
+    const asciiArt = generateAsciiArt(type, color, accessory);
 
-    return { color, accessory, chaosLevel, asciiArt };
+    return { type, color, accessory, chaosLevel, asciiArt };
 }
 
-function generateAsciiArt(color, accessory) {
-    const body = `
-         .     .
-        [o]---[o]
-       <         >
-        \\_______/
-         |${color[0]}|${accessory[0]}|
-    `;
+function generateAsciiArt(type, color, accessory) {
+    const goblinArt = {
+        Warrior: `
+           /\\_/\\
+          ( o.o )
+           > ^ <
+         [ Shield ]
+        `,
+        Mage: `
+           ^^^^^
+         ( *_* )
+        <\\_____/>
+         { Staff }
+        `,
+        Thief: `
+          .-\"\"\"-.
+         / . o o\\
+        |    ^    |
+         \\_____/  
+        `,
+        Healer: `
+          .oO*Oo.
+         [^_^_^_^]
+          ( Heal )
+        `,
+    };
 
-    return body;
+    return goblinArt[type] || goblinArt.Warrior;
 }
 
 function displayGoblin(goblin) {
@@ -72,9 +92,25 @@ function displayGoblin(goblin) {
     goblinCard.className = 'goblin';
     goblinCard.innerHTML = `
         ${goblin.asciiArt}
+        <p><strong>Type:</strong> ${goblin.type}</p>
         <p><strong>Color:</strong> ${goblin.color}</p>
         <p><strong>Accessory:</strong> ${goblin.accessory}</p>
         <p><strong>Chaos Level:</strong> ${goblin.chaosLevel}</p>
     `;
+
+    const downloadButton = document.createElement('button');
+    downloadButton.className = 'download-btn';
+    downloadButton.textContent = 'Download Your Goblin';
+    downloadButton.onclick = () => downloadGoblin(goblin);
+
+    goblinCard.appendChild(downloadButton);
     goblinShowcase.appendChild(goblinCard);
+}
+
+function downloadGoblin(goblin) {
+    const blob = new Blob([goblin.asciiArt], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${goblin.type}_Goblin.txt`;
+    link.click();
 }
