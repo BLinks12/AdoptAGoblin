@@ -3,109 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adopt a Goblin - Mystical Companion Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Adopt a Goblin</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-bg: linear-gradient(to bottom, #3e4a3e, #1e2a1e);
-            --accent-gold: #d4af37;
-            --dark-green: #1e2a1e;
-            --medium-green: #3e4a3e;
-            --text-color: #e8d4a2;
-            --secondary-bg: #5c5c5c;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'MedievalSharp', cursive;
-            background: var(--primary-bg);
-            color: var(--text-color);
+            background: linear-gradient(to bottom, #3e4a3e, #1e2a1e);
+            color: #e8d4a2;
             text-align: center;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
         }
 
         .hero {
-            padding: 50px 20px;
-            background: rgba(30, 42, 30, 0.7);
-            border-bottom: 3px solid var(--accent-gold);
+            padding: 40px 20px;
         }
 
         .hero h1 {
-            font-size: 4em;
-            color: var(--accent-gold);
-            text-shadow: 3px 3px 5px rgba(0,0,0,0.7);
-            margin-bottom: 20px;
+            font-size: 3em;
+            color: #d4af37;
+            text-shadow: 3px 3px 5px #000;
         }
 
         .hero p {
             font-size: 1.5em;
-            max-width: 700px;
-            margin: 20px auto;
+            margin: 20px 0;
         }
 
         .generator {
-            background: var(--secondary-bg);
-            border: 2px solid var(--accent-gold);
-            border-radius: 15px;
-            padding: 30px;
             margin: 30px 0;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            padding: 20px;
+            background: #5c5c5c;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            display: inline-block;
         }
 
         .generator input {
-            width: 100%;
-            max-width: 500px;
-            padding: 15px;
             font-size: 1.2em;
-            border: 2px solid var(--accent-gold);
+            padding: 10px;
+            width: 300px;
+            margin: 10px;
             border-radius: 10px;
-            background: rgba(255,255,255,0.1);
-            color: var(--text-color);
-            font-family: 'Roboto Mono', monospace;
+            border: 1px solid #444;
         }
 
         .generator button {
-            margin-top: 20px;
-            padding: 15px 30px;
             font-size: 1.2em;
-            background: var(--accent-gold);
-            color: var(--dark-green);
+            padding: 10px 20px;
+            background: #d4af37;
+            color: #1e2a1e;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .generator button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(212,175,55,0.4);
         }
 
         .loading-container {
             display: none;
-            margin: 50px 0;
+            margin: 20px auto;
+        }
+
+        .loading-text {
+            color: #d4af37;
+            font-size: 1.5em;
+            margin-top: 10px;
         }
 
         .spinner {
-            width: 80px;
-            height: 80px;
-            border: 8px solid var(--medium-green);
-            border-top: 8px solid var(--accent-gold);
+            width: 50px;
+            height: 50px;
+            border: 5px solid #3e4a3e;
+            border-top: 5px solid #d4af37;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto;
@@ -116,108 +84,436 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loading-text {
-            margin-top: 20px;
-            font-size: 1.5em;
-            color: var(--accent-gold);
-        }
-
         .goblin-showcase {
             margin: 50px 0;
         }
 
         .goblin {
-            background: var(--secondary-bg);
-            border: 2px solid var(--accent-gold);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
+            display: inline-block;
+            margin: 20px;
+            padding: 15px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: #333;
+            color: #d4af37;
             text-align: left;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .goblin pre {
-            font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
             white-space: pre;
             overflow-x: auto;
-            max-width: 100%;
+            position: relative;
         }
 
-        .download-btn {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 20px auto;
-            padding: 15px;
-            background: var(--accent-gold);
-            color: var(--dark-green);
+        .download-btn, .share-btn {
+            margin-top: 15px;
+            font-size: 1em;
+            padding: 10px 20px;
+            background: #d4af37;
+            color: #1e2a1e;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
+            display: inline-block;
+            margin: 5px;
         }
 
-        .download-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(212,175,55,0.4);
+        .share-btn {
+            background: #1da1f2; /* Twitter Blue */
+            color: #fff;
         }
 
         footer {
-            background: var(--dark-green);
-            color: rgba(232,212,162,0.7);
-            padding: 20px;
-            margin-top: auto;
+            padding: 20px 0;
+            background: #1e2a1e;
+            color: #888;
         }
 
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5em;
-            }
-
-            .hero p {
-                font-size: 1.2em;
-            }
+        /* Canvas styling (hidden) */
+        #goblin-canvas {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="hero">
-            <h1>Adopt a Goblin</h1>
-            <p>Unleash the chaos of your very own mystical goblin companion! Enter your Solana wallet address to generate a unique creature with extraordinary powers.</p>
-        </div>
+    <div class="hero">
+        <h1>Adopt a Goblin</h1>
+        <p>Generate your unique goblin companion by entering your wallet address below.</p>
+    </div>
 
-        <div class="generator">
-            <input 
-                type="text" 
-                id="wallet-address" 
-                placeholder="Enter your Solana wallet address (44 characters)"
-                maxlength="44"
-                pattern="[1-9A-HJ-NP-Za-km-z]{32,44}"
-                required
-            >
-            <button onclick="document.querySelector('.generator button').blur()">
-                Summon Your Goblin
-            </button>
-        </div>
+    <div class="generator">
+        <input type="text" id="wallet-address" placeholder="Enter your Solana wallet address...">
+        <button id="generate-button">Generate My Goblin</button>
+    </div>
 
-        <div class="loading-container" id="loading-container">
-            <div class="spinner"></div>
-            <p class="loading-text">Summoning Your Goblin...</p>
-        </div>
+    <div class="loading-container" id="loading-container">
+        <div class="spinner"></div>
+        <p class="loading-text">Summoning Your Goblin...</p>
+    </div>
 
-        <div class="goblin-showcase" id="goblin-showcase">
-            <h2>Your Future Companion Awaits</h2>
-            <p>Your uniquely generated goblin will appear here once summoned.</p>
-        </div>
+    <div class="goblin-showcase" id="goblin-showcase">
+        <h2>Your Goblin Companion</h2>
+        <!-- Generated goblin will appear here -->
     </div>
 
     <footer>
-        <p>© 2024 Adopt a Goblin | Magical Companions Unleashed</p>
-        <p>Disclaimer: Goblins may cause unpredictable magical chaos. Adopt at your own risk!</p>
+        © 2024 Adopt a Goblin | Chaos Unleashed
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Hidden Canvas for Image Generation -->
+    <canvas id="goblin-canvas" width="500" height="600"></canvas>
+
+    <script>
+    // Goblin Generator Script
+    (function() {
+        // DOM Elements
+        const walletInput = document.getElementById('wallet-address');
+        const generateButton = document.getElementById('generate-button');
+        const goblinShowcase = document.getElementById('goblin-showcase');
+        const loadingContainer = document.getElementById('loading-container');
+        const goblinCanvas = document.getElementById('goblin-canvas');
+
+        // Goblin Generation Configuration
+        const GOBLIN_TYPES = [
+            {
+                type: 'Warrior',
+                traits: ['Brave', 'Strong', 'Fierce'],
+                art: `
+               /\\_/\\
+              ( o.o )
+               > ^ <
+             /|_____|\ 
+            /  |   |  \\
+           /___|___|___\\
+           |   |   |   |
+           | Shield|   |
+            `
+            },
+            {
+                type: 'Mage',
+                traits: ['Wise', 'Mysterious', 'Arcane'],
+                art: `
+                 _____
+                /     \\
+               | ( ) ( ) |
+               |    ^    |
+               |  \\___/  |
+               |_________|
+                /  | |  \\
+               /   | |   \\
+              /____|_|____\\
+             |    Staff    |
+                `
+            },
+            {
+                type: 'Thief',
+                traits: ['Cunning', 'Agile', 'Sneaky'],
+                art: `
+                 .-"""-.
+                /       \\
+               |  o   o  |
+               |    ^    |
+               |  \\___/  |
+               |         |
+                \\_______/
+                / /| |\\ \\
+               /_/ | | \\_\\
+               |   Dagger   |
+                `
+            },
+            {
+                type: 'Healer',
+                traits: ['Compassionate', 'Gentle', 'Nurturing'],
+                art: `
+                  .-''''-.
+                 /  _.._  \\
+                |  /    \\  |
+                | |      | |
+                | |      | |
+                |  \\____/  |
+                 \\        /
+                  '-.__.-'
+                  /  | |  \\
+                 /   | |   \\
+                /____|_|____\\
+               |   Healing   |
+                `
+            },
+            {
+                type: 'Berserker',
+                traits: ['Ruthless', 'Untamed', 'Ferocious'],
+                art: `
+                 ,     ,
+                (\____/)
+                 (_oo_)
+                   (O)
+                 __||__   
+                (______)\ 
+                /       \\
+               / |     | \\
+              /__|_____|__\\
+             |   Battle   |
+                `
+            },
+            {
+                type: 'Alchemist',
+                traits: ['Inventive', 'Knowledgeable', 'Curious'],
+                art: `
+                   ____ 
+                 /      \\
+                |  O  O  |
+                |   ^    |
+                |  '-'   |
+                |________|
+                /  | |  \\
+               /   | |   \\
+              /____|_|____\\
+             |  Elixir    |
+                `
+            },
+            {
+                type: 'Shadow',
+                traits: ['Stealthy', 'Mysterious', 'Evasive'],
+                art: `
+                   .---.
+                  /     \\
+                 |  o o  |
+                 |   ^   |
+                 |  '-'  |
+                  \\_____/ 
+                  / /| |\\ \\
+                 /_/ | | \\_\\
+                |   Shadow   |
+                `
+            },
+            {
+                type: 'Ranger',
+                traits: ['Resourceful', 'Perceptive', 'Skilled'],
+                art: `
+                    /^\\
+                   /   \\
+                  / 0 0 \\
+                  \\  ^  /
+                   \\___/
+                  / /| |\\ \\
+                 /_/ | | \\_\\
+                |    Bow    |
+                `
+            }
+        ];
+
+        const COLORS = ['Green', 'Blue', 'Red', 'Yellow', 'Purple', 'Black', 'Silver', 'Gold'];
+        const ACCESSORIES = ['Axe', 'Staff', 'Dagger', 'Potion', 'Charm', 'Bow', 'Shield', 'Elixir'];
+
+        // Wallet Address Validation
+        function validateWalletAddress(address) {
+            // Basic Solana wallet address validation
+            const solanaAddressRegex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+            return solanaAddressRegex.test(address);
+        }
+
+        // Advanced Hashing Function
+        function hashAddress(address) {
+            let hash = 0;
+            for (let i = 0; i < address.length; i++) {
+                const char = address.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return Math.abs(hash);
+        }
+
+        // Goblin Generation
+        function generateGoblin(hash) {
+            const typeIndex = hash % GOBLIN_TYPES.length;
+            const colorIndex = (hash >> 2) % COLORS.length;
+            const accessoryIndex = (hash >> 4) % ACCESSORIES.length;
+            const chaosLevel = (hash % 100) + 1;
+
+            const goblinType = GOBLIN_TYPES[typeIndex];
+
+            return {
+                type: goblinType.type,
+                color: COLORS[colorIndex],
+                accessory: ACCESSORIES[accessoryIndex],
+                trait: goblinType.traits[hash % goblinType.traits.length],
+                chaosLevel: chaosLevel,
+                asciiArt: goblinType.art
+            };
+        }
+
+        // Show Loading State
+        function showLoading() {
+            loadingContainer.style.display = 'block';
+            goblinShowcase.innerHTML = '<h2>Your Goblin Companion</h2>';
+        }
+
+        // Hide Loading State
+        function hideLoading() {
+            loadingContainer.style.display = 'none';
+        }
+
+        // Display Generated Goblin
+        function displayGoblin(goblin) {
+            const goblinCard = document.createElement('div');
+            goblinCard.className = 'goblin';
+            goblinCard.innerHTML = `
+${goblin.asciiArt}
+<p><strong>Type:</strong> ${goblin.type}</p>
+<p><strong>Color:</strong> ${goblin.color}</p>
+<p><strong>Trait:</strong> ${goblin.trait}</p>
+<p><strong>Accessory:</strong> ${goblin.accessory}</p>
+<p><strong>Chaos Level:</strong> ${goblin.chaosLevel}/100</p>
+            `;
+
+            // Download Button
+            const downloadButton = document.createElement('button');
+            downloadButton.className = 'download-btn';
+            downloadButton.textContent = 'Download as Image';
+            downloadButton.addEventListener('click', () => downloadGoblinImage(goblin));
+
+            // Share on Twitter Button
+            const shareButton = document.createElement('button');
+            shareButton.className = 'share-btn';
+            shareButton.textContent = 'Share on Twitter';
+            shareButton.addEventListener('click', () => shareOnTwitter(goblin));
+
+            goblinCard.appendChild(downloadButton);
+            goblinCard.appendChild(shareButton);
+            goblinShowcase.appendChild(goblinCard);
+        }
+
+        // Download Goblin as Image
+        function downloadGoblinImage(goblin) {
+            const canvas = goblinCanvas;
+            const ctx = canvas.getContext('2d');
+
+            // Calculate canvas height based on ASCII art lines
+            const asciiLines = goblin.asciiArt.trim().split('\n');
+            const lineHeight = 20;
+            const padding = 50;
+            const artHeight = asciiLines.length * lineHeight;
+            const detailsHeight = 5 * lineHeight + 20;
+            canvas.width = 500;
+            canvas.height = padding * 2 + artHeight + detailsHeight;
+
+            // Background
+            ctx.fillStyle = '#1e2a1e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // ASCII Art
+            ctx.fillStyle = '#d4af37';
+            ctx.font = '16px monospace';
+            asciiLines.forEach((line, index) => {
+                ctx.fillText(line, 50, padding + index * lineHeight);
+            });
+
+            // Goblin Details
+            ctx.fillStyle = '#e8d4a2';
+            ctx.font = '20px Arial';
+            ctx.fillText(`Type: ${goblin.type}`, 50, padding + artHeight + 30);
+            ctx.fillText(`Color: ${goblin.color}`, 50, padding + artHeight + 60);
+            ctx.fillText(`Trait: ${goblin.trait}`, 50, padding + artHeight + 90);
+            ctx.fillText(`Accessory: ${goblin.accessory}`, 50, padding + artHeight + 120);
+            ctx.fillText(`Chaos Level: ${goblin.chaosLevel}/100`, 50, padding + artHeight + 150);
+
+            // Convert canvas to image and download
+            const image = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = image;
+            link.download = `${goblin.type}_Goblin.png`;
+            link.click();
+        }
+
+        // Share on Twitter
+        async function shareOnTwitter(goblin) {
+            // Check if Web Share API is supported
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([], 'dummy.png')] })) {
+                // Generate image
+                const canvas = goblinCanvas;
+                const ctx = canvas.getContext('2d');
+
+                // Calculate canvas height based on ASCII art lines
+                const asciiLines = goblin.asciiArt.trim().split('\n');
+                const lineHeight = 20;
+                const padding = 50;
+                const artHeight = asciiLines.length * lineHeight;
+                const detailsHeight = 5 * lineHeight + 20;
+                canvas.width = 500;
+                canvas.height = padding * 2 + artHeight + detailsHeight;
+
+                // Background
+                ctx.fillStyle = '#1e2a1e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // ASCII Art
+                ctx.fillStyle = '#d4af37';
+                ctx.font = '16px monospace';
+                asciiLines.forEach((line, index) => {
+                    ctx.fillText(line, 50, padding + index * lineHeight);
+                });
+
+                // Goblin Details
+                ctx.fillStyle = '#e8d4a2';
+                ctx.font = '20px Arial';
+                ctx.fillText(`Type: ${goblin.type}`, 50, padding + artHeight + 30);
+                ctx.fillText(`Color: ${goblin.color}`, 50, padding + artHeight + 60);
+                ctx.fillText(`Trait: ${goblin.trait}`, 50, padding + artHeight + 90);
+                ctx.fillText(`Accessory: ${goblin.accessory}`, 50, padding + artHeight + 120);
+                ctx.fillText(`Chaos Level: ${goblin.chaosLevel}/100`, 50, padding + artHeight + 150);
+
+                // Convert canvas to blob
+                canvas.toBlob(async (blob) => {
+                    try {
+                        const filesArray = [
+                            new File([blob], `${goblin.type}_Goblin.png`, { type: 'image/png' })
+                        ];
+
+                        await navigator.share({
+                            files: filesArray,
+                            title: 'My Goblin Companion',
+                            text: 'Check out my unique goblin companion!',
+                        });
+                    } catch (error) {
+                        console.error('Error sharing:', error);
+                        alert('Sharing failed. Please try again or use the download option.');
+                    }
+                }, 'image/png');
+            } else {
+                // Fallback: Share text with a link
+                const goblinDetails = `
+Type: ${goblin.type}
+Color: ${goblin.color}
+Trait: ${goblin.trait}
+Accessory: ${goblin.accessory}
+Chaos Level: ${goblin.chaosLevel}/100
+Check out my goblin at https://yourdomain.com
+                `;
+                const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(goblinDetails)}`;
+                window.open(twitterUrl, '_blank');
+            }
+        }
+
+        // Event Listener for Goblin Generation
+        generateButton.addEventListener('click', () => {
+            const walletAddress = walletInput.value.trim();
+
+            // Validate wallet address
+            if (!validateWalletAddress(walletAddress)) {
+                alert('Please enter a valid Solana wallet address!');
+                return;
+            }
+
+            // Show loading and generate goblin
+            showLoading();
+
+            setTimeout(() => {
+                const hash = hashAddress(walletAddress);
+                const goblin = generateGoblin(hash);
+                
+                hideLoading();
+                displayGoblin(goblin);
+            }, 2000);
+        });
+    })();
+    </script>
 </body>
 </html>
