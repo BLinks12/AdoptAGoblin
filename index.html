@@ -4,139 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adopt a Goblin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <style>
+        /* General Styles */
         body {
-            font-family: 'Courier Prime', monospace;
-            background: linear-gradient(to bottom, #223622, #111);
-            color: #e0d8a8;
-            text-align: center;
+            font-family: 'MedievalSharp', serif;
+            background: linear-gradient(135deg, #3E2C41, #26182A);
+            color: #E3B23C;
             margin: 0;
-            padding: 0;
-        }
-
-        .hero {
-            padding: 40px 20px;
-        }
-
-        .hero h1 {
-            font-size: 3em;
-            color: #d4af37;
-            text-shadow: 2px 2px 5px #000;
-        }
-
-        .hero p {
-            font-size: 1.5em;
-            margin: 20px 0;
-        }
-
-        .generator {
-            margin: 30px 0;
             padding: 20px;
-            background: #2a2a2a;
-            border: 2px solid #d4af37;
-            border-radius: 15px;
-            display: inline-block;
+            text-align: center;
         }
 
-        .generator input {
-            font-size: 1.2em;
-            padding: 10px;
-            width: 300px;
-            margin: 10px;
-            border-radius: 10px;
-            border: 1px solid #444;
-        }
-
-        .generator button {
-            font-size: 1.2em;
-            padding: 10px 20px;
-            background: #d4af37;
-            color: #111;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .loading-container {
-            display: none;
-            margin: 20px auto;
-        }
-
-        .loading-text {
-            color: #d4af37;
-            font-size: 1.5em;
-            margin-top: 10px;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #2a2a2a;
-            border-top: 5px solid #d4af37;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px #000;
         }
 
-        .goblin-showcase {
-            margin: 50px 0;
-        }
-
-        .goblin {
-            display: inline-block;
-            margin: 20px;
-            padding: 15px;
-            border: 2px solid #444;
+        /* Goblin Display */
+        .goblin-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #FFD700;
             border-radius: 10px;
-            background: #333;
-            color: #d4af37;
-            text-align: left;
-            font-size: 0.9em;
-            white-space: pre;
-            overflow-x: auto;
+            display: inline-block;
+            text-align: center;
         }
 
-        footer {
-            padding: 20px 0;
-            background: #111;
-            color: #666;
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            color: #33FF33;
+            margin-bottom: 10px;
+        }
+
+        .backstory {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #FFD700;
+        }
+
+        /* Buttons */
+        .btn {
+            background: #FFD700;
+            color: #3E2C41;
+            border: 2px solid #3E2C41;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-share {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="hero">
+    <div class="container">
         <h1>Adopt a Goblin</h1>
-        <p>Generate your unique goblin companion by entering your wallet address below.</p>
+        <div class="goblin-container">
+            <div class="ascii-art" id="goblinAscii">
+                <!-- ASCII Goblin will appear here -->
+            </div>
+            <div class="backstory" id="goblinBackstory">
+                <!-- Goblin backstory will appear here -->
+            </div>
+            <button class="btn" onclick="generateGoblin()">Generate New Goblin</button>
+            <button class="btn" onclick="downloadGoblin()">Download Goblin</button>
+            <button class="btn btn-share" onclick="shareGoblin()">Share Goblin</button>
+        </div>
     </div>
-
-    <div class="generator">
-        <input type="text" id="wallet-address" placeholder="Enter your Solana wallet address...">
-        <button onclick="generateGoblin()">Generate My Goblin</button>
-    </div>
-
-    <div class="loading-container" id="loading-container">
-        <div class="spinner"></div>
-        <p class="loading-text">Fetching Goblin Data...</p>
-    </div>
-
-    <div class="goblin-showcase" id="goblin-showcase">
-        <h2>Your Goblin Companions</h2>
-        <!-- Generated goblins will appear here -->
-    </div>
-
-    <footer>
-        © 2024 Adopt a Goblin | Chaos Unleashed
-    </footer>
 
     <script src="script.js"></script>
 </body>
