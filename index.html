@@ -101,23 +101,28 @@
             white-space: pre;
             overflow-x: auto;
             position: relative;
+            width: 300px;
+        }
+
+        .goblin p {
+            margin: 5px 0;
         }
 
         .download-btn, .share-btn {
-            margin-top: 15px;
+            margin-top: 10px;
             font-size: 1em;
-            padding: 10px 20px;
+            padding: 8px 16px;
             background: #d4af37;
             color: #1e2a1e;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             display: inline-block;
-            margin: 5px;
+            margin-right: 10px;
         }
 
         .share-btn {
-            background: #1da1f2; /* Twitter Blue */
+            background: #1DA1F2; /* Twitter Blue */
             color: #fff;
         }
 
@@ -127,9 +132,14 @@
             color: #888;
         }
 
-        /* Canvas styling (hidden) */
-        #goblin-canvas {
-            display: none;
+        @media (max-width: 600px) {
+            .goblin {
+                width: 90%;
+            }
+
+            .generator input {
+                width: 80%;
+            }
         }
     </style>
 </head>
@@ -158,9 +168,6 @@
         © 2024 Adopt a Goblin | Chaos Unleashed
     </footer>
 
-    <!-- Hidden Canvas for Image Generation -->
-    <canvas id="goblin-canvas" width="500" height="600"></canvas>
-
     <script>
     // Goblin Generator Script
     (function() {
@@ -169,7 +176,6 @@
         const generateButton = document.getElementById('generate-button');
         const goblinShowcase = document.getElementById('goblin-showcase');
         const loadingContainer = document.getElementById('loading-container');
-        const goblinCanvas = document.getElementById('goblin-canvas');
 
         // Goblin Generation Configuration
         const GOBLIN_TYPES = [
@@ -177,131 +183,131 @@
                 type: 'Warrior',
                 traits: ['Brave', 'Strong', 'Fierce'],
                 art: `
-               /\\_/\\
-              ( o.o )
-               > ^ <
-             /|_____|\ 
-            /  |   |  \\
-           /___|___|___\\
-           |   |   |   |
-           | Shield|   |
-            `
+   /\\_/\\
+  ( o.o )
+   > ^ <
+ [ Shield ]
+                `
             },
             {
                 type: 'Mage',
                 traits: ['Wise', 'Mysterious', 'Arcane'],
                 art: `
-                 _____
-                /     \\
-               | ( ) ( ) |
-               |    ^    |
-               |  \\___/  |
-               |_________|
-                /  | |  \\
-               /   | |   \\
-              /____|_|____\\
-             |    Staff    |
+ ^^^^^
+( *_* )
+<\\_____/>
+ { Staff }
                 `
             },
             {
                 type: 'Thief',
                 traits: ['Cunning', 'Agile', 'Sneaky'],
                 art: `
-                 .-"""-.
-                /       \\
-               |  o   o  |
-               |    ^    |
-               |  \\___/  |
-               |         |
-                \\_______/
-                / /| |\\ \\
-               /_/ | | \\_\\
-               |   Dagger   |
+ .-"""-.
+ / . o o\\
+ |  ^  |
+ \\_____/
                 `
             },
             {
                 type: 'Healer',
                 traits: ['Compassionate', 'Gentle', 'Nurturing'],
                 art: `
-                  .-''''-.
-                 /  _.._  \\
-                |  /    \\  |
-                | |      | |
-                | |      | |
-                |  \\____/  |
-                 \\        /
-                  '-.__.-'
-                  /  | |  \\
-                 /   | |   \\
-                /____|_|____\\
-               |   Healing   |
+  .oO*Oo.
+ [^_^_^_^]
+  ( Heal )
                 `
             },
             {
                 type: 'Berserker',
-                traits: ['Ruthless', 'Untamed', 'Ferocious'],
+                traits: ['Ruthless', 'Unstoppable', 'Ferocious'],
                 art: `
-                 ,     ,
-                (\____/)
-                 (_oo_)
-                   (O)
-                 __||__   
-                (______)\ 
-                /       \\
-               / |     | \\
-              /__|_____|__\\
-             |   Battle   |
+  /|\\
+ (o.o)
+  /|\\
+[ Battle Axe ]
                 `
             },
             {
                 type: 'Alchemist',
-                traits: ['Inventive', 'Knowledgeable', 'Curious'],
+                traits: ['Inventive', 'Curious', 'Resourceful'],
                 art: `
-                   ____ 
-                 /      \\
-                |  O  O  |
-                |   ^    |
-                |  '-'   |
-                |________|
-                /  | |  \\
-               /   | |   \\
-              /____|_|____\\
-             |  Elixir    |
-                `
-            },
-            {
-                type: 'Shadow',
-                traits: ['Stealthy', 'Mysterious', 'Evasive'],
-                art: `
-                   .---.
-                  /     \\
-                 |  o o  |
-                 |   ^   |
-                 |  '-'  |
-                  \\_____/ 
-                  / /| |\\ \\
-                 /_/ | | \\_\\
-                |   Shadow   |
+   ____
+  / __ \\
+ | /  \\ |
+ | \\__/ |
+  \\____/
+ [ Potion ]
                 `
             },
             {
                 type: 'Ranger',
-                traits: ['Resourceful', 'Perceptive', 'Skilled'],
+                traits: ['Stealthy', 'Sharpshooter', 'Enduring'],
                 art: `
-                    /^\\
-                   /   \\
-                  / 0 0 \\
-                  \\  ^  /
-                   \\___/
-                  / /| |\\ \\
-                 /_/ | | \\_\\
-                |    Bow    |
+   /|\\
+  / | \\
+ /__|__\\
+   /|\\
+ [ Bow ]
+                `
+            },
+            {
+                type: 'Necromancer',
+                traits: ['Dark', 'Manipulative', 'Eerie'],
+                art: `
+   ~~~~~
+  ( -_- )
+ <\\_____/>
+  { Skull }
+                `
+            },
+            {
+                type: 'Beastmaster',
+                traits: ['Wild', 'Untamed', 'Fearless'],
+                art: `
+   /\\___/\\
+  ( o   o )
+  /  ^  \\
+ /_/   \\_\\
+ [ Whip ]
+                `
+            },
+            {
+                type: 'Assassin',
+                traits: ['Silent', 'Deadly', 'Stealthy'],
+                art: `
+   /\\_/\\
+  ( -.- )
+   > > >
+ [ Dagger ]
+                `
+            },
+            {
+                type: 'Shaman',
+                traits: ['Spiritual', 'Enigmatic', 'Elemental'],
+                art: `
+   /^^^\\
+  ( ^_^ )
+   \\___/
+ [ Totem ]
+                `
+            },
+            {
+                type: 'Engineer',
+                traits: ['Innovative', 'Precise', 'Mechanical'],
+                art: `
+   _____
+  | o o |
+  |  ^  |
+  | ___ |
+  |_____|
+ [ Tools ]
                 `
             }
         ];
 
-        const COLORS = ['Green', 'Blue', 'Red', 'Yellow', 'Purple', 'Black', 'Silver', 'Gold'];
-        const ACCESSORIES = ['Axe', 'Staff', 'Dagger', 'Potion', 'Charm', 'Bow', 'Shield', 'Elixir'];
+        const COLORS = ['Green', 'Blue', 'Red', 'Yellow', 'Purple', 'Black', 'Silver', 'Gold', 'Orange', 'Teal'];
+        const ACCESSORIES = ['Axe', 'Staff', 'Dagger', 'Potion', 'Charm', 'Bow', 'Shield', 'Skull', 'Whip', 'Totem', 'Tools'];
 
         // Wallet Address Validation
         function validateWalletAddress(address) {
@@ -367,129 +373,60 @@ ${goblin.asciiArt}
             // Download Button
             const downloadButton = document.createElement('button');
             downloadButton.className = 'download-btn';
-            downloadButton.textContent = 'Download as Image';
-            downloadButton.addEventListener('click', () => downloadGoblinImage(goblin));
+            downloadButton.textContent = 'Download Your Goblin';
+            downloadButton.addEventListener('click', () => downloadGoblin(goblin));
 
-            // Share on Twitter Button
+            // Share on X Button
             const shareButton = document.createElement('button');
             shareButton.className = 'share-btn';
-            shareButton.textContent = 'Share on Twitter';
-            shareButton.addEventListener('click', () => shareOnTwitter(goblin));
+            shareButton.textContent = 'Share on X';
+            shareButton.addEventListener('click', () => shareOnX(goblin));
 
+            // Append buttons to goblin card
             goblinCard.appendChild(downloadButton);
             goblinCard.appendChild(shareButton);
+
             goblinShowcase.appendChild(goblinCard);
         }
 
-        // Download Goblin as Image
-        function downloadGoblinImage(goblin) {
-            const canvas = goblinCanvas;
-            const ctx = canvas.getContext('2d');
-
-            // Calculate canvas height based on ASCII art lines
-            const asciiLines = goblin.asciiArt.trim().split('\n');
-            const lineHeight = 20;
-            const padding = 50;
-            const artHeight = asciiLines.length * lineHeight;
-            const detailsHeight = 5 * lineHeight + 20;
-            canvas.width = 500;
-            canvas.height = padding * 2 + artHeight + detailsHeight;
-
-            // Background
-            ctx.fillStyle = '#1e2a1e';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // ASCII Art
-            ctx.fillStyle = '#d4af37';
-            ctx.font = '16px monospace';
-            asciiLines.forEach((line, index) => {
-                ctx.fillText(line, 50, padding + index * lineHeight);
-            });
-
-            // Goblin Details
-            ctx.fillStyle = '#e8d4a2';
-            ctx.font = '20px Arial';
-            ctx.fillText(`Type: ${goblin.type}`, 50, padding + artHeight + 30);
-            ctx.fillText(`Color: ${goblin.color}`, 50, padding + artHeight + 60);
-            ctx.fillText(`Trait: ${goblin.trait}`, 50, padding + artHeight + 90);
-            ctx.fillText(`Accessory: ${goblin.accessory}`, 50, padding + artHeight + 120);
-            ctx.fillText(`Chaos Level: ${goblin.chaosLevel}/100`, 50, padding + artHeight + 150);
-
-            // Convert canvas to image and download
-            const image = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = image;
-            link.download = `${goblin.type}_Goblin.png`;
-            link.click();
-        }
-
-        // Share on Twitter
-        async function shareOnTwitter(goblin) {
-            // Check if Web Share API is supported
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([], 'dummy.png')] })) {
-                // Generate image
-                const canvas = goblinCanvas;
-                const ctx = canvas.getContext('2d');
-
-                // Calculate canvas height based on ASCII art lines
-                const asciiLines = goblin.asciiArt.trim().split('\n');
-                const lineHeight = 20;
-                const padding = 50;
-                const artHeight = asciiLines.length * lineHeight;
-                const detailsHeight = 5 * lineHeight + 20;
-                canvas.width = 500;
-                canvas.height = padding * 2 + artHeight + detailsHeight;
-
-                // Background
-                ctx.fillStyle = '#1e2a1e';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                // ASCII Art
-                ctx.fillStyle = '#d4af37';
-                ctx.font = '16px monospace';
-                asciiLines.forEach((line, index) => {
-                    ctx.fillText(line, 50, padding + index * lineHeight);
-                });
-
-                // Goblin Details
-                ctx.fillStyle = '#e8d4a2';
-                ctx.font = '20px Arial';
-                ctx.fillText(`Type: ${goblin.type}`, 50, padding + artHeight + 30);
-                ctx.fillText(`Color: ${goblin.color}`, 50, padding + artHeight + 60);
-                ctx.fillText(`Trait: ${goblin.trait}`, 50, padding + artHeight + 90);
-                ctx.fillText(`Accessory: ${goblin.accessory}`, 50, padding + artHeight + 120);
-                ctx.fillText(`Chaos Level: ${goblin.chaosLevel}/100`, 50, padding + artHeight + 150);
-
-                // Convert canvas to blob
-                canvas.toBlob(async (blob) => {
-                    try {
-                        const filesArray = [
-                            new File([blob], `${goblin.type}_Goblin.png`, { type: 'image/png' })
-                        ];
-
-                        await navigator.share({
-                            files: filesArray,
-                            title: 'My Goblin Companion',
-                            text: 'Check out my unique goblin companion!',
-                        });
-                    } catch (error) {
-                        console.error('Error sharing:', error);
-                        alert('Sharing failed. Please try again or use the download option.');
-                    }
-                }, 'image/png');
-            } else {
-                // Fallback: Share text with a link
-                const goblinDetails = `
+        // Download Goblin Details
+        function downloadGoblin(goblin) {
+            const goblinDetails = `
+Goblin Companion Details:
+------------------------
 Type: ${goblin.type}
 Color: ${goblin.color}
 Trait: ${goblin.trait}
 Accessory: ${goblin.accessory}
 Chaos Level: ${goblin.chaosLevel}/100
-Check out my goblin at https://yourdomain.com
-                `;
-                const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(goblinDetails)}`;
-                window.open(twitterUrl, '_blank');
-            }
+
+Ascii Art:
+${goblin.asciiArt}
+            `;
+
+            const blob = new Blob([goblinDetails], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${goblin.type}_Goblin.txt`;
+            link.click();
+        }
+
+        // Share on X Function
+        function shareOnX(goblin) {
+            const goblinDetails = `I just adopted a new goblin companion! 🐉✨
+
+Type: ${goblin.type}
+Color: ${goblin.color}
+Trait: ${goblin.trait}
+Accessory: ${goblin.accessory}
+Chaos Level: ${goblin.chaosLevel}/100
+
+Join me in the world of goblins! #AdoptaSolGoblin #GOBLIN $GOBLIN
+
+@AdoptaSolGoblin`;
+
+            const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(goblinDetails)}`;
+            window.open(tweetUrl, '_blank');
         }
 
         // Event Listener for Goblin Generation
