@@ -3,91 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adopt a Goblin</title>
-    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <title>Adopt a Goblin - Mystical Companion Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        /* General Styles */
-        body {
-            font-family: 'MedievalSharp', serif;
-            background: linear-gradient(135deg, #3E2C41, #26182A);
-            color: #E3B23C;
+        :root {
+            --primary-bg: linear-gradient(to bottom, #3e4a3e, #1e2a1e);
+            --accent-gold: #d4af37;
+            --dark-green: #1e2a1e;
+            --medium-green: #3e4a3e;
+            --text-color: #e8d4a2;
+            --secondary-bg: #5c5c5c;
+        }
+
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'MedievalSharp', cursive;
+            background: var(--primary-bg);
+            color: var(--text-color);
             text-align: center;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
+            width: 90%;
             max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero {
+            padding: 50px 20px;
+            background: rgba(30, 42, 30, 0.7);
+            border-bottom: 3px solid var(--accent-gold);
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            color: var(--accent-gold);
+            text-shadow: 3px 3px 5px rgba(0,0,0,0.7);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            max-width: 700px;
+            margin: 20px auto;
+        }
+
+        .generator {
+            background: var(--secondary-bg);
+            border: 2px solid var(--accent-gold);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .generator input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid var(--accent-gold);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .generator button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background: var(--accent-gold);
+            color: var(--dark-green);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generator button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(212,175,55,0.4);
+        }
+
+        .loading-container {
+            display: none;
+            margin: 50px 0;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid var(--medium-green);
+            border-top: 8px solid var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
             margin: 0 auto;
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #FFD700;
-            text-shadow: 2px 2px 4px #000;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Goblin Display */
-        .goblin-container {
+        .loading-text {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: var(--accent-gold);
+        }
+
+        .goblin-showcase {
+            margin: 50px 0;
+        }
+
+        .goblin {
+            background: var(--secondary-bg);
+            border: 2px solid var(--accent-gold);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .goblin pre {
+            font-family: 'Roboto Mono', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
             margin: 20px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #FFD700;
+            padding: 15px;
+            background: var(--accent-gold);
+            color: var(--dark-green);
+            border: none;
             border-radius: 10px;
-            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-align: center;
         }
 
-        .ascii-art {
-            font-family: monospace;
-            white-space: pre;
-            color: #33FF33;
-            margin-bottom: 10px;
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(212,175,55,0.4);
         }
 
-        .backstory {
-            margin-top: 10px;
-            font-size: 1rem;
-            color: #FFD700;
+        footer {
+            background: var(--dark-green);
+            color: rgba(232,212,162,0.7);
+            padding: 20px;
+            margin-top: auto;
         }
 
-        /* Buttons */
-        .btn {
-            background: #FFD700;
-            color: #3E2C41;
-            border: 2px solid #3E2C41;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
 
-        .btn:hover {
-            transform: scale(1.1);
-        }
-
-        .btn-share {
-            margin-top: 10px;
+            .hero p {
+                font-size: 1.2em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Adopt a Goblin</h1>
-        <div class="goblin-container">
-            <div class="ascii-art" id="goblinAscii">
-                <!-- ASCII Goblin will appear here -->
-            </div>
-            <div class="backstory" id="goblinBackstory">
-                <!-- Goblin backstory will appear here -->
-            </div>
-            <button class="btn" onclick="generateGoblin()">Generate New Goblin</button>
-            <button class="btn" onclick="downloadGoblin()">Download Goblin</button>
-            <button class="btn btn-share" onclick="shareGoblin()">Share Goblin</button>
+        <div class="hero">
+            <h1>Adopt a Goblin</h1>
+            <p>Unleash the chaos of your very own mystical goblin companion! Enter your Solana wallet address to generate a unique creature with extraordinary powers.</p>
+        </div>
+
+        <div class="generator">
+            <input 
+                type="text" 
+                id="wallet-address" 
+                placeholder="Enter your Solana wallet address (44 characters)"
+                maxlength="44"
+                pattern="[1-9A-HJ-NP-Za-km-z]{32,44}"
+                required
+            >
+            <button onclick="document.querySelector('.generator button').blur()">
+                Summon Your Goblin
+            </button>
+        </div>
+
+        <div class="loading-container" id="loading-container">
+            <div class="spinner"></div>
+            <p class="loading-text">Summoning Your Goblin...</p>
+        </div>
+
+        <div class="goblin-showcase" id="goblin-showcase">
+            <h2>Your Future Companion Awaits</h2>
+            <p>Your uniquely generated goblin will appear here once summoned.</p>
         </div>
     </div>
+
+    <footer>
+        <p>© 2024 Adopt a Goblin | Magical Companions Unleashed</p>
+        <p>Disclaimer: Goblins may cause unpredictable magical chaos. Adopt at your own risk!</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
